@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mlops-major-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: mlops-major
+  template:
+    metadata:
+      labels:
+        app: mlops-major
+    spec:
+      containers:
+      - name: mlops-major
+        image: paresh2045/mlops-major:latest
+        ports:
+        - containerPort: 5000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mlops-major-service
+spec:
+  selector:
+    app: mlops-major
+  type: LoadBalancer
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 5000
